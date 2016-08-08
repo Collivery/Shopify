@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+    DocumentRoot /var/www/laravel_shopify/public
+    ServerAdmin bernhard@collivery.co.za
+    ServerName laravel-shopify.local
+    ServerAlias www.laravel-shopify.local
+
+    TransferLog /var/log/apache2/laravel_shopify_access.log
+    ErrorLog /var/log/apache2/laravel_shopify_error.log
+
+    <Directory /var/www/laravel_shopify/public>
+        RewriteEngine On
+
+        # Redirect Trailing Slashes...
+        RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^ index.php [L]
+    </Directory>
+</VirtualHost>
