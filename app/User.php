@@ -27,4 +27,9 @@ class User extends Authenticatable
     public function subscribed($plan = null){
         return $plan === $this->plan;
     }
+
+    public function hasMany()
+    {
+        return $this->hasMany('App\Shop');
+    }
 }
