@@ -3,7 +3,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Database\Migrations\Migration;
 
-    class CreateUsersTable extends Migration
+    class CreateLogsTable extends Migration
     {
         /**
          * Run the migrations.
@@ -12,21 +12,19 @@
          */
         public function up()
         {
-            Schema::create('users', function (Blueprint $table) {
+            Schema::create('logs', function (Blueprint $table) {
                 $table->increments('id')->unsigned();
 
-                //collivery user_id
-                $table->integer('user_id')->unsigned();
+                $table->integer('shop_id')->unsigned();
 
-                $table->string('name');
-                $table->string('email')->unique();
-                $table->string('password');
+                $table->ipAddress('ip');
 
-                $table->boolean('active')->default(false);
-
-                $table->rememberToken();
+                $table->text('headers')->nullable();
+                $table->text('payload')->nullable();
 
                 $table->timestamps();
+
+                $table->foreign('shop_id')->references('id')->on('users');
 
                 $table->softDeletes();
             });
@@ -39,6 +37,8 @@
          */
         public function down()
         {
-            Schema::drop('users');
+            Schema::drop('logs', function (Blueprint $table){
+                $table->dropForeign('shop_id');
+            });
         }
     }
