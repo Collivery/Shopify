@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Auth;
+    namespace App\Auth;
 
-use Illuminate\Auth\EloquentUserProvider;
-use Illuminate\Contracts\Hashing\Hasher;
+    use Illuminate\Auth\EloquentUserProvider;
+    use Illuminate\Contracts\Hashing\Hasher;
 
-class ColliveryUserProvider extends EloquentUserProvider
-{
-    public function __construct(Hasher $contract, $model)
+    class ColliveryUserProvider extends EloquentUserProvider
     {
-        parent::__construct($contract, $model);
+        public function __construct(Hasher $contract, $model)
+        {
+            parent::__construct($contract, $model);
+        }
+
+        public function retrieveByCredentials(array $credentials)
+        {
+            $user = parent::retrieveByCredentials($credentials);
+
+            if (!$user) {
+                //do some collivery calls
+            }
+
+            return $user;
+        }
     }
-
-    public function retrieveByCredentials(array $credentials)
-    {
-        $user = parent::retrieveByCredentials($credentials);
-
-        if(!$user){
-            //do some collivery calls
-         }
-
-        return $user;
-    }
-}

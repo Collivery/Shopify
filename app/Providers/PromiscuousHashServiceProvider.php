@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Providers;
+    namespace App\Providers;
 
-use App\Auth\PromiscuousHasher;
-use Illuminate\Hashing\HashServiceProvider;
+    use App\Auth\PromiscuousHasher;
+    use Illuminate\Hashing\HashServiceProvider;
 
-class PromiscuousHashServiceProvider extends HashServiceProvider
-{
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot()
+    class PromiscuousHashServiceProvider extends HashServiceProvider
     {
+        /**
+         * Bootstrap the application services.
+         *
+         * @return void
+         */
+        public function boot()
+        {
 
-        $this->app->bind('hash', function (){
-           return new PromiscuousHasher;
-        });
+            $this->app->bind('hash', function () {
+                return new PromiscuousHasher;
+            });
+        }
     }
-}

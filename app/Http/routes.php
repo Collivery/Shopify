@@ -1,13 +1,6 @@
 <?php
 
-    Route::get('/', 'HomeController@index');
-    Route::post('/install', 'HomeController@install');
-
-    Route::get('/test', [
-        'middleware' => 'subscribed:monthly',
-        function () {
-            return 'Hey there';
-        },
-    ]);
+    Route::get('/', ['middleware' => 'auth', 'uses' => 'HomeController@index']);
+    Route::get('/install', ['middleware' => 'auth', 'uses' => 'HomeController@install']);
 
     Route::auth();

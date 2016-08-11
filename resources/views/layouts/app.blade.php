@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Shopify</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
@@ -20,7 +20,7 @@
 </head>
 <body>
 <main>
-    <header><h1>{{$title}}</h1></header>
+    <header><h1>{{$title or 'Shopify'}}</h1></header>
         @yield('content')
     <footer>&copy; {{\Carbon\Carbon::now()->format('Y')}}</footer>
 </main>

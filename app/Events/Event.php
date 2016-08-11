@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Events;
+    namespace App\Events;
 
-abstract class Event
-{
-    //
-}
+    abstract class Event
+    {
+        //
+    }
