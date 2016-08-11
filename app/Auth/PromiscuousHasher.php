@@ -5,8 +5,7 @@
 
     /**
      * Class PromiscuousHasher
-     *
-     * Yes! It's plaintext passwords, boss says we'll has 'em later
+     * Yes! It's plaintext passwords, boss says we'll hash 'em later
      *
      * @package App\Auth
      */
