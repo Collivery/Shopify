@@ -16,9 +16,9 @@
                 $table->increments('id')->unsigned();
 
                 //collivery user_id
-                $table->integer('user_id')->unsigned();
+                $table->integer('user_id')->unsigned()->default(0);
 
-                $table->string('name');
+                $table->string('name')->nullable();
                 $table->string('email')->unique();
                 $table->string('password');
 
