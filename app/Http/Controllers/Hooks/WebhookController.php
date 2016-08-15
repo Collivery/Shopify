@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Hooks;
+    namespace App\Http\Controllers\Hooks;
 
-use Illuminate\Http\Request;
+    use App\Http\Controllers\Controller;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
-class WebhookController extends Controller
-{
-    //
-}
+    class WebhookController extends Controller
+    {
+        //
+    }
