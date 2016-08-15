@@ -1,5 +1,6 @@
 /* Tabs
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+
 .tabs {
   @include display(flex);
   @include flex-wrap(nowrap);
@@ -10,10 +11,8 @@
   padding: 0;
   white-space: nowrap;
   box-shadow: inset 0 -.1rem 0 #ebeef0;
-
   li {
     @include flex(0 0 auto);
-
     a {
       display: inline-block;
       padding: 1.5rem 2.0rem;
@@ -23,7 +22,6 @@
       cursor: pointer;
       position: relative;
       white-space: nowrap;
-
       &:hover {
         outline: none;
         background-color: #fafbfc;
@@ -34,10 +32,8 @@
         border-top-left-radius: .3rem;
       }
     }
-
     &.active,
     &:first-child:last-child {
-
       a {
         background-color: #fff;
         color: #31373d;
