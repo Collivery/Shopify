@@ -29,6 +29,7 @@
             return $this->app_installed === 2;
         }
 
+    /**
         /**
          * @return bool
          */
@@ -36,4 +37,11 @@
         {
             return $this->app_installed == 0;
         }
+     * Find active shops
+     *
+     */
+    public function scopeInstalled($query)
+    {
+        return $query->where('app_installed', 1);
     }
+}
