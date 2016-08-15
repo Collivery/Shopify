@@ -10,7 +10,8 @@ var elixir = require('laravel-elixir');
  | file for our application, as well as publishing vendor resources.
  |
  */
-var gulp = require('gulp')
+var gulp = require('gulp');
+
 elixir(function(mix) {
     mix.sass('app.scss')
       .version('public/css/app.css');
