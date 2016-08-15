@@ -4,9 +4,7 @@
  * Licensed under MIT (https://github.com/shoppad/UptownCSS/blob/master/LICENSE)
  */
 
-
-@import "../../../../node_modules/bourbon/app/assets/stylesheets/bourbon";
-
+@import "node_modules/bourbon/app/assets/stylesheets/bourbon";
 @import "normalize";
 @import "grid";
 @import "typography";
