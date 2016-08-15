@@ -20,7 +20,7 @@
 </head>
 <body>
 <main>
-    <header><h1>{{$title or 'Shopify'}}</h1></header>
+    <header><h1>Collivery Shopify - @yield('title')</h1></header>
         @yield('content')
     <footer>&copy; {{\Carbon\Carbon::now()->format('Y')}}</footer>
 </main>
