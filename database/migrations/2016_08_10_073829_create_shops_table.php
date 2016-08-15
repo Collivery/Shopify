@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateShopsTable extends Migration
 {
@@ -12,8 +12,9 @@ class CreateShopsTable extends Migration
      */
     public function up()
     {
-        if(Schema::hasTable('shops'))
+        if (Schema::hasTable('shops')) {
             $this->down();
+        }
 
         Schema::create('shops', function (Blueprint $table) {
             $table->engine = 'InnoDB';
@@ -24,6 +25,7 @@ class CreateShopsTable extends Migration
             $table->string('access_token');
 
             $table->integer('user_id')->unsigned();
+            $table->integer('carrier_id')->unsigned();
 
             //0 never installed, 1 installed, 2 uninstalled
             $table->smallInteger('app_installed')->default(0);
