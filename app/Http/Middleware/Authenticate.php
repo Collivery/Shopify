@@ -26,7 +26,7 @@ class Authenticate
 
             $redirectUrl = 'login';
 
-            if ($request->path() !== 'login') {
+            if ($request->path() !== 'login' && !$request->isMethod('post')) {
                 $request->session()->put('url.intended', $request->fullUrl());
             }
 
