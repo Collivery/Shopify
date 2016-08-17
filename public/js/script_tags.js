@@ -1,0 +1,1 @@
+alert('shopify script tags');
