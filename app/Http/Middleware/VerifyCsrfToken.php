@@ -12,6 +12,6 @@
          * @var array
          */
         protected $except = [
-            //
+            '/service/*',
         ];
     }
