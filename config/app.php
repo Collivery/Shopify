@@ -162,7 +162,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\PromiscuousHashServiceProvider::class
+        App\Providers\PromiscuousHashServiceProvider::class,
     ],
 
     /*
