@@ -8,6 +8,7 @@
                 <div class="column three">&nbsp;</div>
                 <div class="align-center">
                     <div class="input-group column six {{Session::has('shop_error') ? 'error'  : ''}}">
+                     <button disabled="disabled">https://</button>
                         <input type="text" name="shop" placeholder="yourshop.myshopify.com" value="{{$shop}}">
                         <button>Install</button>
                     </div>
