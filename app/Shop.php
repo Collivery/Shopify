@@ -45,4 +45,8 @@ class Shop extends Model
     {
         return $query->where('app_installed', 1);
     }
+
+    public function scopeByName($query, $shop){
+        return $query->where('shop', $shop);
+    }
 }
