@@ -12,6 +12,10 @@ Route::post("/service/orders/paid", "Hooks\WebhookController@ordersPaid");
 Route::post("/service/app/uninstalled", "Hooks\WebhookController@appUninstalled");
 Route::post("/service/shop/update", "Hooks\WebhookController@shopUpdate");
 
+Route::get("/script/{town_id}/suburbs", "Scripts\ScriptController@getSuburbs");
+Route::get("/script/towns", "Scripts\ScriptController@getTowns");
+Route::get('/scripts/location-types', "Scripts\ScriptController@getLocationTypes");
+
 //shipping rates
 Route::post("/service/shipping/rates", "Hooks\WebhookController@rates");
 
