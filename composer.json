@@ -7,8 +7,7 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
-        "mdstech/colliveryclient": "dev-CDN-98-api",
-        "peterchaula/phpdiskcache": "^1.0"
+        "mds/collivery": "^0.0.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

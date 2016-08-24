@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "13c98fc53c6751cde6c1dfe6b7af96f7",
-    "content-hash": "2cc4a2af084a7e3af3e027e65178c244",
+    "hash": "a8c8e24420fc52db793ebb22c87ab10f",
+    "content-hash": "59fed33697167f67a0022955d590e676",
     "packages": [
         {
             "name": "apache/log4php",
@@ -548,6 +548,57 @@
                 "storage"
             ],
             "time": "2016-08-03 09:49:11"
+        },
+        {
+            "name": "mds/collivery",
+            "version": "0.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Collivery/Collivery-Client.git",
+                "reference": "29dc59f75e3587840e92e1421151c5815f8a5cfc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Collivery/Collivery-Client/zipball/29dc59f75e3587840e92e1421151c5815f8a5cfc",
+                "reference": "29dc59f75e3587840e92e1421151c5815f8a5cfc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.1.0"
+            },
+            "require-dev": {
+                "illuminate/support": ">=4.1.0",
+                "mockery/mockery": ">=0.9.0",
+                "phpunit/phpunit": ">=4.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Mds": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GNU General Public License v3 or later"
+            ],
+            "authors": [
+                {
+                    "name": "Bernhard Breytenbach",
+                    "email": "bernhard@collivery.co.za"
+                }
+            ],
+            "description": "Class that connects to MDS Collivery's Shipping API to handle all API communications as well as caching.",
+            "homepage": "https://github.com/Collivery/Collivery-Client",
+            "keywords": [
+                "Collivery",
+                "MDS",
+                "South Africa",
+                "api",
+                "courier",
+                "delivery",
+                "shipping"
+            ],
+            "time": "2014-05-30 11:15:23"
         },
         {
             "name": "mdstech/colliveryclient",
