@@ -40,7 +40,6 @@ class ShopController extends Controller
         }
 
         abort(500);
-        // return redirect('/');
     }
 
     public function requestPermissions(Request $request)
@@ -79,7 +78,7 @@ class ShopController extends Controller
         $shop   = $request->input('shop');
         $server = config('shopify.domain');
 
-        return preg_match("|[a-z\-]{3,100}\.${server}|", $shop) === 1;
+        return preg_match("|[a-z\-\d]{3,100}\.${server}|", $shop) === 1;
     }
 
     private function redirectToShopAdmin(Shop $shop)
