@@ -27,22 +27,17 @@
             }
         }
 
-        var requestCounter = new RequestCounter();
+        var removeStatusText = function() {
+            $( 'body .server-status' ).fadeOut( 'slow' );
+        };
 
-        $( document ).on( 'ajaxSend', function( e, xhr ) {
+        var statusIndicator = function( error, done ) {
+            if ( done && !error ) {
+                removeStatusText();
+                return;
+            }
 
-            $( 'input,select' ).attr( 'disabled', 'disabled' );
-
-            requestCounter.increment();
-
-        } ).on( 'ajaxSuccess', function( e, xhr ) {
-
-            requestCounter.decrement();
-
-        } ).on( 'ajaxError', function() {
-            $( 'body .server-error' ).remove();
-
-            var errorBox = $( '<div/>' )
+            var statusBox = $( '<div/>' )
                 .css( {
                     position: 'fixed',
                     top: 0,
@@ -51,33 +46,63 @@
                     height: 'auto',
                     "text-align": 'center',
                     background: 'rgb(245, 195, 75) none repeat scroll 0% 0%',
-                    "z-index": 100000
+                    "z-index": 9999999,
                 } );
 
             $( window ).resize( function() {
-                errorBox.css( {
+                statusBox.css( {
                     width: $( window ).width()
                 } );
             } );
 
-            errorBox.addClass( 'server-error' );
-            var errorLink = $( '<a/>' )
-                .attr( 'href', window.location.href );
-            errorLink.text( 'Network error. Reload page' );
-            errorBox.append( errorLink );
-            errorBox.append( errorLink )
+            statusBox.addClass( 'server-status' );
 
-            $( 'body' ).prepend( errorBox );
+            var statusLink = $( '<a/>' )
+                .attr( 'href', error ? window.location.href : 'javascript:void(0)' );
+
+            statusLink.text( error ? 'Network error. Reload page' : 'Loading...' );
+
+            if ( !error ) {
+                statusLink.css( 'color', 'grey' );
+            }
+
+            statusBox.append( statusLink );
+            statusBox.append( statusLink )
+
+            $( 'body' ).prepend( statusBox );
+        };
+
+        var requestCounter = new RequestCounter();
+        var hasError = false;
+
+        $( document ).on( 'ajaxSend', function( e, xhr ) {
+
+            $( 'input,select' ).attr( 'disabled', 'disabled' );
+
+            statusIndicator( hasError, false );
+            requestCounter.increment();
+
+        } ).on( 'ajaxSuccess', function( e, xhr ) {
+
+        } ).on( 'ajaxError', function() {
+            hasError = true;
+
         } ).on( 'ajaxComplete', function( e, xhr ) {
-            if ( requestCounter.get() == 0 ) {
+            removeStatusText();
+            statusIndicator( hasError, true );
+            requestCounter.decrement();
+
+            if ( requestCounter.get() === 0 && !hasError ) {
                 $( 'input,select' ).removeAttr( 'disabled' );
             }
         } );
 
         var dropdown = function( params ) {
+
             if ( !params ) {
                 throw new Error( 'Invalid arguments' );
             }
+
             var dropdown = $( '<select/>' );
 
             dropdown.attr( 'name', params.name );
@@ -87,6 +112,7 @@
             $.each( params.extras, function( k, v ) {
                 dropdown.data( k, params.extras[ k ] );
             } );
+
             $.each( params.data, function( k, v ) {
                 var option = $( '<option/>' );
                 option.attr( 'value', k );
