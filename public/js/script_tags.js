@@ -216,8 +216,8 @@
             } );
         } );
 
-        //rename zip 
-        $( 'label[for^="AddressZip"]' ).text( 'Suburb' );
+        //rename address 2s
+        $( 'label[for^="AddressAddress2"]' ).text( 'Suburb' );
         var locationTypeFields = $( '[name="address[location_type]"' );
 
         //disable countries except ZA
