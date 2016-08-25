@@ -14,9 +14,8 @@ Route::post("/service/shop/update", "Hooks\WebhookController@shopUpdate");
 
 Route::get("/script/{town_id}/suburbs", "Scripts\ScriptController@getSuburbs");
 Route::get("/script/towns", "Scripts\ScriptController@getTowns");
-Route::get('/scripts/location-types', "Scripts\ScriptController@getLocationTypes");
+Route::get('/script/location-types', "Scripts\ScriptController@getLocationTypes");
 
 //shipping rates
 Route::post("/service/shipping/rates", "Hooks\WebhookController@rates");
-
 Route::auth();
