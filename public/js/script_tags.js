@@ -15,11 +15,11 @@
                 get: function() {
                     return count;
                 },
-                increment: function( step = 1 ) {
-                    count += step;
+                increment: function() {
+                    count++;
                 },
-                decrement: function( step = 1 ) {
-                    count -= step;
+                decrement: function(  ) {
+                    count--;
                 },
                 reset: function() {
                     count = 0;
