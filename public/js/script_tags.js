@@ -1,37 +1,6 @@
 ( function() {
     "'use strict';"
-    var HOST = 'https://4c83e691.ngrok.io';
-
-
-    var requestCount = ( function() {
-        var count = 0;
-        return {
-            get: function() {
-                return count;
-            },
-            increment: function( step = 0 ) {
-                count += step;
-            },
-            decrement: function( step = 0 ) {
-                count -= step;
-            }
-        }
-    } )();
-
-$.ajaxPrefilter(function( options ) {
-    options.global = true;
-});
-    $.ajaxSetup( {
-        ajaxSend: function() {
-            requestCount.increment();
-        },
-        ajaxComplete: function() {
-            requestCount.decrement();
-            if ( request.get() <= 0 ) {
-                alert( 'Empty' );
-            }
-        }
-    } );
+    var HOST = '/apps/collivery';
 
     //finds next item in form
     var findNext = function( parent, childSelector ) {
@@ -39,6 +8,72 @@ $.ajaxPrefilter(function( options ) {
     };
 
     var main = function( $ ) {
+
+        function RequestCounter() {
+            var count = 0;
+            return {
+                get: function() {
+                    return count;
+                },
+                increment: function( step = 1 ) {
+                    count += step;
+                },
+                decrement: function( step = 1 ) {
+                    count -= step;
+                },
+                reset: function() {
+                    count = 0;
+                }
+            }
+        }
+
+        var requestCounter = new RequestCounter();
+
+        $( document ).on( 'ajaxSend', function( e, xhr ) {
+
+            $( 'input,select' ).attr( 'disabled', 'disabled' );
+
+            requestCounter.increment();
+
+        } ).on( 'ajaxSuccess', function( e, xhr ) {
+
+            requestCounter.decrement();
+
+        } ).on( 'ajaxError', function() {
+            $( 'body .server-error' ).remove();
+
+            var errorBox = $( '<div/>' )
+                .css( {
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: $( window ).width(),
+                    height: 'auto',
+                    "text-align": 'center',
+                    background: 'rgb(245, 195, 75) none repeat scroll 0% 0%',
+                    "z-index": 100000
+                } );
+
+            $( window ).resize( function() {
+                errorBox.css( {
+                    width: $( window ).width()
+                } );
+            } );
+
+            errorBox.addClass( 'server-error' );
+            var errorLink = $( '<a/>' )
+                .attr( 'href', window.location.href );
+            errorLink.text( 'Network error. Reload page' );
+            errorBox.append( errorLink );
+            errorBox.append( errorLink )
+
+            $( 'body' ).prepend( errorBox );
+        } ).on( 'ajaxComplete', function( e, xhr ) {
+            if ( requestCounter.get() == 0 ) {
+                $( 'input,select' ).removeAttr( 'disabled' );
+            }
+        } );
+
         var dropdown = function( params ) {
             if ( !params ) {
                 throw new Error( 'Invalid arguments' );
@@ -76,6 +111,8 @@ $.ajaxPrefilter(function( options ) {
             provinceFields.first().find( 'option' ).each( function() {
                 provinces.push( $( this ).val() );
             } );
+
+
             $.ajax( {
                 url: HOST + '/script/towns',
                 dataType: 'json',
