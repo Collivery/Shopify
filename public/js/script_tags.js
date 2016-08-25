@@ -163,7 +163,7 @@
             newCityField.on( 'change', function( e ) {
                 var newCityField = $( this );
                 var form = $( newCityField.parents( 'form' ).get( 0 ) );
-                var suburbsField = $( form.find( '[name="address[zip]"]' ).get( 0 ) );
+                var suburbsField = $( form.find( '[name="address[address2]"]' ).get( 0 ) );
 
                 getSuburbs( newCityField.val(), function( suburbs ) {
                     var newSuburbsField = dropdown( {
