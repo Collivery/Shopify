@@ -1,0 +1,8 @@
+[
+    "customers/create",
+    "customers/update",
+    "orders/create",
+    "orders/paid",
+    "app/uninstalled",
+    "shop/update"
+]
