@@ -222,17 +222,6 @@
 
         //disable countries except ZA
         $( 'select[name="address[country]"]  option[value!="South Africa"]' ).attr( 'disabled', 'disabled' );
-
-        // getLocationTypes( function( locationTypes ) {
-        //     locationTypeFields.each( function( i, locationTypeField ) {
-        //         $( locationTypeField ).replaceWith( dropdown( {
-        //             data: locationTypes,
-        //             name: $( locationTypeField ).attr( 'name' ),
-        //             id: $( locationTypeField ).attr( 'id' ),
-        //         } ) );
-        //     } );
-        // } );
-
     };
 
     var callback = function() {
