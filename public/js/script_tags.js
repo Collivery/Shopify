@@ -18,7 +18,7 @@
                 increment: function() {
                     count++;
                 },
-                decrement: function(  ) {
+                decrement: function() {
                     count--;
                 },
                 reset: function() {
