@@ -203,31 +203,32 @@ $.ajaxPrefilter(function( options ) {
         main( jQuery3 );
     };
 
-    //load jquery
-    if ( typeof jQuery == 'undefined' || parseFloat( jQuery.fn.jquery ) < 1.9 ) {
-        var script = document.createElement( 'script' );
-        script.type = 'text/javascript';
+    //load for addresses page only
+    if ( window.location.href.indexOf( '/addresses' ) !== -1 )
+        if ( typeof jQuery == 'undefined' || parseFloat( jQuery.fn.jquery ) < 1.9 ) {
+            var script = document.createElement( 'script' );
+            script.type = 'text/javascript';
 
-        if ( script.readyState ) {
-            script.onreadystatechange = function() {
-                if ( script.readyState == 'loaded' || script.readyState == 'complete' ) {
-                    script.onreadystatechange = null;
+            if ( script.readyState ) {
+                script.onreadystatechange = function() {
+                    if ( script.readyState == 'loaded' || script.readyState == 'complete' ) {
+                        script.onreadystatechange = null;
+                        callback();
+                    }
+                };
+            }
+            else {
+                script.onload = function() {
+                    script.onload = null;
                     callback();
-                }
-            };
+                };
+            }
+
+            script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js';
+            document.getElementsByTagName( 'head' )[ 0 ].appendChild( script );
+
         }
         else {
-            script.onload = function() {
-                script.onload = null;
-                callback();
-            };
+            main( jQuery );
         }
-
-        script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js';
-        document.getElementsByTagName( 'head' )[ 0 ].appendChild( script );
-
-    }
-    else {
-        main( jQuery );
-    }
 } )();
