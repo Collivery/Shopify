@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Shop;
 use Carbon\Carbon;
+use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,10 +15,16 @@ use Illuminate\Support\Facades\Input;
  */
 class ShopController extends Controller
 {
-    public function __construct()
+    /**
+     * @var Log
+     */
+    private $logger;
+
+    public function __construct(Log $logger)
     {
         $this->middleware('auth');
         $this->middleware('shopify', ['except' => ['requestPermissions']]);
+        $this->logger = $logger;
     }
 
     public function setup(Request $request)
@@ -147,15 +154,9 @@ class ShopController extends Controller
                 return true;
             } else {
                 throw new \Exception('Error Processing Request', 1);
-        } catch (\ShopifyApiException $e) {
-            if (config('app.debug')) {
-                throw $e;
             }
-        } catch (\ShopifyCurlException $e) {
-            if (config('app.debug')) {
-                throw $e;
-            }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            $this->logger->error($e);
         }
 
         return false;
