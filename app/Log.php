@@ -1,13 +1,13 @@
 <?php
 
-    namespace App;
+namespace App;
 
-    use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
-    class Log extends Model
+class Log extends Model
+{
+    public function shop()
     {
-        public function shop()
-        {
-            return $this->belongsTo('App\Shop');
-        }
+        return $this->belongsTo('App\Shop');
     }
+}

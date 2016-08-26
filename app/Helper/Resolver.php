@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Helper;
 
 use Mds\ColliveryClient;
@@ -18,6 +19,7 @@ class Resolver
         if ($towns) {
             return array_search($townName, $towns);
         }
+
         return false;
     }
 

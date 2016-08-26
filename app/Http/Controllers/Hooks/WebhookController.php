@@ -11,7 +11,6 @@ use Mds\Collivery;
 
 class WebhookController extends Controller
 {
-
     public function rates(Request $request)
     {
         $origTownId = app('resolver')->getTownId($request->input('rate.origin.city'));
@@ -33,33 +32,34 @@ class WebhookController extends Controller
         foreach ($items as $key => $item) {
             $parcels[] = [
                 'quantity' => $item['quantity'],
-                'weight'   => floatval($item['grams']) / 1000,
+                'weight' => floatval($item['grams']) / 1000,
             ];
         }
 
         $quoteParams = [
-            'from_town_id'     => $origTownId,
-            'to_town_id'       => $destTownId,
+            'from_town_id' => $origTownId,
+            'to_town_id' => $destTownId,
             'to_location_type' => 16,
-            'collivery_type'   => 2,
-            'exclude_weekend'  => 1,
-            'parcels'          => $parcels,
+            'collivery_type' => 2,
+            'exclude_weekend' => 1,
+            'parcels' => $parcels,
         ];
 
         $services = app('soap')->getServices();
-        $rates    = [];
+        $rates = [];
 
         foreach ($services as $key => $service) {
             $quoteParams['service'] = $key;
 
             $price = app('soap')->getPrice($quoteParams);
 
-            $deliveryTime = Carbon::createFromTimestamp($price['collection_time'], 'Africa/Johannesburg')->format('Y-m-d G:i:s O');
-            $rates[]      = [
-                'service_name'      => $service,
-                'service_code'      => $key,
-                'total_price'       => $price['price']['inc_vat'] * 100,
-                'currency'          => $request->input('rate.currency'),
+            $deliveryTime = Carbon::createFromTimestamp($price['collection_time'],
+                'Africa/Johannesburg')->format('Y-m-d G:i:s O');
+            $rates[] = [
+                'service_name' => $service,
+                'service_code' => $key,
+                'total_price' => $price['price']['inc_vat'] * 100,
+                'currency' => $request->input('rate.currency'),
                 'min_delivery_date' => $deliveryTime,
                 'max_delivery_date' => $deliveryTime,
             ];
@@ -70,12 +70,10 @@ class WebhookController extends Controller
 
     public function customersCreate(Request $request)
     {
-
     }
 
     public function customersUpdate(Request $request)
     {
-
     }
 
     public function ordersCreate(Request $request)
@@ -88,30 +86,26 @@ class WebhookController extends Controller
         $user = User::find($shop->user_id)->first();
 
         $colliveryClient = new Collivery([
-            'user_email'    => $user->email,
+            'user_email' => $user->email,
             'user_password' => $user->password,
         ]);
 
-        if(!$colliveryClient->authenticate()){
+        if (!$colliveryClient->authenticate()) {
             abort(500, 'Internal server error');
         }
 
         dd($user);
-        
     }
 
     public function ordersPaid(Request $request)
     {
-
     }
 
     public function appUninstalled(Request $request)
     {
-
     }
 
     public function shopUpdate(Request $request)
     {
-
     }
 }

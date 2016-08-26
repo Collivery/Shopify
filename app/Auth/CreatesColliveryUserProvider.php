@@ -1,10 +1,11 @@
 <?php
-    namespace App\Auth;
 
-    trait CreatesColliveryUserProvider
+namespace App\Auth;
+
+trait CreatesColliveryUserProvider
+{
+    protected function createEloquentProvider($config)
     {
-        protected function createEloquentProvider($config)
-        {
-            return new ColliveryUserProvider($this->app['hash'], $config['model']);
-        }
+        return new ColliveryUserProvider($this->app['hash'], $config['model']);
     }
+}

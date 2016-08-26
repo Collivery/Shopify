@@ -20,7 +20,7 @@ class Shop extends Model
     }
 
     /**
-     *Shop was installed then uninstalled
+     *Shop was installed then uninstalled.
      *
      * @return bool
      */
@@ -38,15 +38,15 @@ class Shop extends Model
     }
 
     /**
-     * Find active shops
-     *
+     * Find active shops.
      */
     public function scopeInstalled($query)
     {
         return $query->where('app_installed', 1);
     }
 
-    public function scopeByName($query, $shop){
+    public function scopeByName($query, $shop)
+    {
         return $query->where('shop', $shop);
     }
 }

@@ -1,14 +1,14 @@
 <?php
 
-    namespace App;
+namespace App;
 
-    use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
-    class Lesson extends Model
-    {
-        protected $fillable = [
-            'title',
-            'description',
-            'duration',
-        ];
-    }
+class Lesson extends Model
+{
+    protected $fillable = [
+        'title',
+        'description',
+        'duration',
+    ];
+}

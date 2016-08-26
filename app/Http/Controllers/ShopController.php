@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 
 /**
- * Handles installation and registration of webhooks
+ * Handles installation and registration of webhooks.
  */
 class ShopController extends Controller
 {
@@ -43,22 +43,21 @@ class ShopController extends Controller
 
     public function requestPermissions(Request $request)
     {
-
         if ($this->validateShop($request)) {
             //disable existing installation
             DB::table('shops')->where([
-                'shop'          => Input::get('shop'),
+                'shop' => Input::get('shop'),
                 'app_installed' => 1,
             ])->update([
                 'app_installed' => 2,
             ]);
 
-            $shop = new Shop;
+            $shop = new Shop();
 
-            $shop->shop    = Input::get('shop');
-            $user          = Auth::user();
+            $shop->shop = Input::get('shop');
+            $user = Auth::user();
             $shop->user_id = $user['id'];
-            $shop->nonce   = sha1(str_random(64));
+            $shop->nonce = sha1(str_random(64));
 
             if ($shop->save()) {
                 return $this->redirectToShopAdmin($shop);
@@ -67,14 +66,14 @@ class ShopController extends Controller
 
         $request->session()->flash('shop_error', 'Invalid shop url');
 
-        $queryString = !Input::get('shop') ? '' : '?shop=' . urlencode(Input::get('shop'));
+        $queryString = !Input::get('shop') ? '' : '?shop='.urlencode(Input::get('shop'));
 
-        return redirect('/' . $queryString);
+        return redirect('/'.$queryString);
     }
 
     private function validateShop(Request $request)
     {
-        $shop   = $request->input('shop');
+        $shop = $request->input('shop');
         $server = config('shopify.domain');
 
         return preg_match("|[a-z\-\d]{3,100}\.${server}|", $shop) === 1;
@@ -82,9 +81,10 @@ class ShopController extends Controller
 
     private function redirectToShopAdmin(Shop $shop)
     {
-        $client     = new \ShopifyClient($shop->shop, null, config('shopify.api_key'), config('shopify.secret'));
+        $client = new \ShopifyClient($shop->shop, null, config('shopify.api_key'), config('shopify.secret'));
         $installUrl = $client->getAuthorizeUrl(config('shopify.scopes'), config('shopify.redirect_uri'));
-        $installUrl .= '&state=' . urlencode($shop->nonce);
+        $installUrl .= '&state='.urlencode($shop->nonce);
+
         return redirect($installUrl);
     }
 
@@ -93,13 +93,13 @@ class ShopController extends Controller
         $client = $this->getShopifyClient($shop);
 
         $payload = [
-            'name'              => config('shopify.app_name'),
-            'callback_url'      => config('shopify.shipping_endpoint'),
+            'name' => config('shopify.app_name'),
+            'callback_url' => config('shopify.shipping_endpoint'),
             'service_discovery' => true,
         ];
 
         if (config('app.debug')) {
-            $payload['callback_url'] = env('NGROK_URL') . '/service/shipping/rates';
+            $payload['callback_url'] = env('NGROK_URL').'/service/shipping/rates';
         }
 
         $service = null;
@@ -107,12 +107,12 @@ class ShopController extends Controller
             $service = $client->call('POST', '/admin/carrier_services.json', [
                 'carrier_service' => $payload,
             ]);
-            $shop->carrier_id           = $service['id'];
-            $shop->carrier_installed    = 1;
+            $shop->carrier_id = $service['id'];
+            $shop->carrier_installed = 1;
             $shop->carrier_installed_on = Carbon::now();
 
             //register webhooks
-            $webhooks   = json_decode(file_get_contents(resource_path('json/webhooks.json')), true);
+            $webhooks = json_decode(file_get_contents(resource_path('json/webhooks.json')), true);
             $hookDomain = config('app.url');
 
             if (config('app.debug')) {
@@ -121,10 +121,10 @@ class ShopController extends Controller
 
             foreach ($webhooks as $key => &$hook) {
                 $hook = [
-                    "webhook" => [
-                        "topic"   => "$hook",
-                        "address" => "$hookDomain/service/$hook",
-                        "format"  => "json",
+                    'webhook' => [
+                        'topic' => "$hook",
+                        'address' => "$hookDomain/service/$hook",
+                        'format' => 'json',
                     ],
                 ];
                 $client->call('POST', '/admin/webhooks.json', $hook);
@@ -136,38 +136,34 @@ class ShopController extends Controller
                     'src' => "${hookDomain}/js/script_tags.js",
                     'event' => 'onload',
                     'display_scope' => 'all',
-                ]
+                ],
             ]);
 
-            $shop->webhooks_installed    = 1;
+            $shop->webhooks_installed = 1;
             $shop->webhooks_installed_on = Carbon::now();
 
-            $shop->app_installed    = 1;
+            $shop->app_installed = 1;
             $shop->app_installed_on = Carbon::now();
 
             if ($shop->save()) {
                 goto success;
             }
-            throw new \Exception("Error Processing Request", 1);
-
+            throw new \Exception('Error Processing Request', 1);
         } catch (\ShopifyApiException $e) {
-
             if (config('app.debug')) {
                 throw $e;
             }
-
         } catch (\ShopifyCurlException $e) {
             if (config('app.debug')) {
                 throw $e;
             }
-
         } catch (Exception $e) {
-
         }
 
         return false;
 
         success:
+
         return true;
     }
 

@@ -15,6 +15,7 @@ class Controller extends BaseController
 
     protected function getShopifyClient(Shop $shop)
     {
-        return new \ShopifyClient($shop->shop, $shop->access_token, config('shopify.api_key'), config('shopify.secret'));
+        return new \ShopifyClient($shop->shop, $shop->access_token, config('shopify.api_key'),
+            config('shopify.secret'));
     }
 }
