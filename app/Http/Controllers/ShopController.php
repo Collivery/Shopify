@@ -144,9 +144,9 @@ class ShopController extends Controller
             $shop->app_installed_on = Carbon::now();
 
             if ($shop->save()) {
-                goto success;
-            }
-            throw new \Exception('Error Processing Request', 1);
+                return true;
+            } else {
+                throw new \Exception('Error Processing Request', 1);
         } catch (\ShopifyApiException $e) {
             if (config('app.debug')) {
                 throw $e;
@@ -159,10 +159,6 @@ class ShopController extends Controller
         }
 
         return false;
-
-        success:
-
-        return true;
     }
 
     public function getShop(Request $request)
