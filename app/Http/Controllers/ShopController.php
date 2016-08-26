@@ -32,9 +32,7 @@ class ShopController extends Controller
                 $this->registerWebhooks($shop);
                 $request->session()->flash('success', 'Shop setup complete');
             } catch (\Exception $e) {
-                if ($e) {
-                    $request->session()->flash('shop_error', 'Shop setup failed');
-                }
+                $request->session()->flash('shop_error', 'Shop setup failed');
             }
         }
 
