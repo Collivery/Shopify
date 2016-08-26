@@ -30,16 +30,15 @@ class ShopController extends Controller
                 $shop->access_token = $client->getAccessToken($request->input('code'));
                 $shop->save();
                 $this->registerWebhooks($request, $shop);
-
-                return 'App installation success!';
-            } catch (\ShopifyCurlException $e) {
-                if ($this) {
-                    $request->session->flash('shop_error', 'Shop setup failed');
+                $request->session()->flash('success', 'Shop setup complete');
+            } catch (\Exception $e) {
+                if ($e) {
+                    $request->session()->flash('shop_error', 'Shop setup failed');
                 }
             }
         }
 
-        abort(500);
+        return redirect('/');
     }
 
     public function requestPermissions(Request $request)
