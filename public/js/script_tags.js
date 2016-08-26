@@ -77,7 +77,7 @@
 
         $( document ).on( 'ajaxSend', function( e, xhr ) {
 
-            $( 'input,select' ).attr( 'disabled', 'disabled' );
+            $( 'input:not(:submit),select' ).attr( 'disabled', 'disabled' );
 
             statusIndicator( hasError, false );
             requestCounter.increment();
@@ -93,7 +93,7 @@
             requestCounter.decrement();
 
             if ( requestCounter.get() === 0 && !hasError ) {
-                $( 'input,select' ).removeAttr( 'disabled' );
+                $( 'input:not(:submit),select' ).removeAttr( 'disabled' );
             }
         } );
 
@@ -128,6 +128,10 @@
         };
 
         var provinceFields = $( '[name="address[province]"' );
+
+        var defaultProvince = $( '<option value="-1">Select province</option>' );
+        provinceFields.prepend( defaultProvince );
+        provinceFields.val( '-1' );
         provinceFields.show();
 
 
@@ -181,7 +185,7 @@
                 data: towns,
                 name: cityField.attr( 'name' ),
                 id: cityField.attr( 'id' ),
-                currentVal: cityField.val()
+                currentVal: '-1'
             } );
 
             cityField.replaceWith( newCityField );
@@ -190,22 +194,28 @@
                 var newCityField = $( this );
                 var form = $( newCityField.parents( 'form' ).get( 0 ) );
                 var suburbsField = $( form.find( '[name="address[address2]"]' ).get( 0 ) );
+                var populateSuburbs = function( suburbs ) {
+                    suburbs[ -1 ] = 'Select suburb';
 
-                getSuburbs( newCityField.val(), function( suburbs ) {
                     var newSuburbsField = dropdown( {
                         data: suburbs,
                         name: suburbsField.attr( 'name' ),
                         id: suburbsField.attr( 'id' ),
-                        currentVal: suburbsField.val(),
+                        currentVal: -1,
                         extras: {
                             suburbs: suburbs
                         }
                     } );
 
                     suburbsField.replaceWith( newSuburbsField );
-                }, function( suburbs ) {
+                }
 
-                } );
+                if ( newCityField.val() == '-1' ) {
+                    populateSuburbs( {} );
+                    return;
+                }
+
+                getSuburbs( newCityField.val(), populateSuburbs, function( suburbs ) {} );
             } );
             newCityField.change();
         };
@@ -219,10 +229,17 @@
 
 
         getProvinces( function( towns ) {
+            var towns = towns;
+
+            towns[ '-1' ] = {
+                '-1': 'Select town'
+            };
+
             provinceFields.each( function() {
                 var provinceField = $( this );
 
                 if ( provinceField.val() in towns ) {
+
                     var townField = findNext( provinceField, '[name="address[city]"]' );
                     var provinceTowns = towns[ provinceField.val() ];
 
@@ -234,6 +251,7 @@
 
                     provinceField.on( 'change', function() {
                         var currentTowns = $( this ).find( 'option:selected' ).data( 'towns' );
+                        currentTowns[ '-1' ] = 'Select town';
                         populateTowns( findNext( $( this ), '[name="address[city]"]' ), currentTowns );
                     } );
 
@@ -248,6 +266,36 @@
 
         //disable countries except ZA
         $( 'select[name="address[country]"]  option[value!="South Africa"]' ).attr( 'disabled', 'disabled' );
+
+
+        $( 'form' ).each( function() {
+            var form = $( this );
+            var submitButton = form.find( ':submit' ).first();
+            submitButton.attr( 'disabled', 'disabled' );
+            var inputs = ':text,:password,select,input[type="tel"]';
+
+            form.find( inputs ).on('focus click change blur keyup', function() {
+                var submit = true;
+                form.find( inputs ).each( function() {
+                    var input = $( this );
+                    
+                    if ( !input.val().match( /.{2,}/ ) ) {
+                        submit = false;
+                        $(this).addClass('error');
+                    }else{
+                        $(this).removeClass('error'); 
+                    }
+                } );
+
+                if(!submit){
+                    submitButton.attr('disabled', 'disabled');
+                }else{
+                    submitButton.removeAttr('disabled');
+                }
+            } );
+        } );
+
+
     };
 
     var callback = function() {
