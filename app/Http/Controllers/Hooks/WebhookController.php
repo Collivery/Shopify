@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Hooks;
 
+use App\Helper\Resolver;
 use App\Http\Controllers\Controller;
 use App\Shop;
 use App\User;
@@ -11,15 +12,24 @@ use Mds\Collivery;
 
 class WebhookController extends Controller
 {
+    /**
+     * @var Resolver
+     */
+    private $resolver;
+
+    public function __construct(Resolver $resolver)
+    {
+        $this->resolver = $resolver;
+    }
     public function rates(Request $request)
     {
-        $origTownId = app('resolver')->getTownId($request->input('rate.origin.city'));
+        $origTownId = $this->resolver->getTownId($request->input('rate.origin.city'));
 
         if (!$origTownId) {
             abort(400, 'Invalid request');
         }
 
-        $destTownId = app('resolver')->getTownId($request->input('rate.destination.city'));
+        $destTownId = $this->resolver->getTownId($request->input('rate.destination.city'));
 
         if (!$destTownId) {
             abort(400, 'Invalid request');

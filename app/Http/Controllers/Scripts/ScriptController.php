@@ -2,20 +2,33 @@
 
 namespace App\Http\Controllers\Scripts;
 
+use App\Helper\Resolver;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Mds\Collivery;
 
 class ScriptController extends Controller
 {
-    public function __construct(\Mds\Collivery $collivery)
+    /**
+     * @var Collivery
+     */
+    private $collivery;
+    /**
+     * @var Resolver
+     */
+    private $resolver;
+
+    public function __construct(Collivery $collivery, Resolver $resolver)
     {
         $this->middleware('cors');
+        $this->collivery = $collivery;
+        $this->resolver = $resolver;
     }
 
     public function getSuburbs($townName)
     {
-        $townId = app('resolver')->getTownId($townName);
-        $suburbs = app('soap')->getSuburbs($townId);
+        $townId = $this->resolver->getTownId($townName);
+        $suburbs = $this->collivery->getSuburbs($townId);
 
         if (!$suburbs) {
             abort(404, 'Suburbs not found!');
@@ -39,7 +52,7 @@ class ScriptController extends Controller
 
         foreach ($provinces as $province) {
             if (isset($provincesMap[$province])) {
-                $provinceTowns = app('soap')->getTowns('ZAF', $provincesMap[$province]);
+                $provinceTowns = $this->collivery->getTowns('ZAF', $provincesMap[$province]);
                 if (!empty($provinceTowns)) {
                     $provinceTowns = array_values($provinceTowns);
                     $result[$province] = array_combine($provinceTowns, $provinceTowns);
@@ -56,7 +69,7 @@ class ScriptController extends Controller
 
     public function getLocationTypes()
     {
-        $locationTypes = app('soap')->getLocationTypes();
+        $locationTypes = $this->collivery->getLocationTypes();
 
         if (!$locationTypes) {
             abort(404);
