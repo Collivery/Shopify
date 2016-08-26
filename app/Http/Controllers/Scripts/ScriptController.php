@@ -12,9 +12,8 @@ class ScriptController extends Controller
         $this->middleware('cors');
     }
 
-    public function getSuburbs($townName, Request $request)
+    public function getSuburbs($townName)
     {
-        $towns = app('soap')->getTowns();
         $townId = app('resolver')->getTownId($townName);
         $suburbs = app('soap')->getSuburbs($townId);
 

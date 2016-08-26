@@ -22,7 +22,6 @@ class HomeController extends Controller
     public function index()
     {
         $shop = Input::get('shop');
-        $server = config('shopify.domain');
 
         return view('app.install', [
             'title' => 'Install app',

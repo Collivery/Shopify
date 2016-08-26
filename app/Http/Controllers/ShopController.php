@@ -29,7 +29,7 @@ class ShopController extends Controller
             try {
                 $shop->access_token = $client->getAccessToken($request->input('code'));
                 $shop->save();
-                $this->registerWebhooks($request, $shop);
+                $this->registerWebhooks($shop);
                 $request->session()->flash('success', 'Shop setup complete');
             } catch (\Exception $e) {
                 if ($e) {
@@ -88,7 +88,7 @@ class ShopController extends Controller
         return redirect($installUrl);
     }
 
-    private function registerWebhooks(Request $request, Shop $shop)
+    private function registerWebhooks(Shop $shop)
     {
         $client = $this->getShopifyClient($shop);
 
@@ -165,11 +165,6 @@ class ShopController extends Controller
         success:
 
         return true;
-    }
-
-    private function registerCarrier()
-    {
-        return false;
     }
 
     public function getShop(Request $request)
