@@ -18,7 +18,7 @@ class CreateShopsTable extends Migration
 
         Schema::create('shops', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id')->unigned();
+            $table->increments('id')->unsigned();
 
             $table->string('shop');
             $table->string('nonce');
