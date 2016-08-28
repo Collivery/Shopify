@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('order_number');
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('shop_id')->references('shops')->on('id');
+            $table->foreign('shop_id')->references('id')->on('shops');
         });
     }
 
