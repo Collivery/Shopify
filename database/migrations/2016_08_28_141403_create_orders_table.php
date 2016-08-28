@@ -14,7 +14,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('shop_id');
+            $table->unsignedInteger('shop_id');
             $table->unsignedBigInteger('shopify_order_id');
             $table->longText('order_status_url');
             $table->unsignedBigInteger('waybill_number');
