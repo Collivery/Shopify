@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Helper\Resolver;
+use App\Soap\ColliverySoap;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('soap', function ($app) {
-            return new \ColliverySoap();
+            return new ColliverySoap();
         });
 
         $this->app->singleton('resolver', function ($app) {
