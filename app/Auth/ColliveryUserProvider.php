@@ -18,7 +18,7 @@ class ColliveryUserProvider extends EloquentUserProvider
         $user = parent::retrieveByCredentials($credentials);
         if (!$user) {
             //try and find them by email
-            if (app('soap')->check()) {
+            if (app('soap')->verify($credentials['email'], $credentials['password'])) {
                 $user = new User([
                     'email' => $credentials['email'],
                     'password' => $credentials['password'],
