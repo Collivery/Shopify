@@ -46,6 +46,11 @@ class ShopController extends Controller
         return redirect('/');
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return Shop
+     */
     public function getShop(Request $request)
     {
         return Shop::where('shop', $request->input('shop'))->where('nonce', $request->input('state'))->first();
