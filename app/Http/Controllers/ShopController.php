@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Shop;
+use App\Model\Shop;
 use Carbon\Carbon;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;

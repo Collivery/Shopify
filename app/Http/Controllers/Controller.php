@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Shop;
+use App\Model\Shop;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 use Illuminate\Foundation\Bus\DispatchesJobs;

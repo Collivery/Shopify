@@ -2,7 +2,7 @@
 
 namespace App\Auth;
 
-use App\User;
+use App\Model\User;
 use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Contracts\Hashing\Hasher;
 
