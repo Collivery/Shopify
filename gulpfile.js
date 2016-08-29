@@ -11,6 +11,7 @@ var elixir = require('laravel-elixir');
  |
  */
 var gulp = require('gulp');
+var webpack = require('laravel-elixir-webpack');
 
 elixir(function(mix) {
     mix.sass('app.scss')
