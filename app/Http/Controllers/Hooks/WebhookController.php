@@ -8,7 +8,6 @@ use App\Model\Shop;
 use App\Model\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Mds\Collivery;
 
 class WebhookController extends Controller
 {
@@ -95,12 +94,9 @@ class WebhookController extends Controller
 
         $user = User::find($shop->user_id)->first();
 
-        $colliveryClient = new Collivery([
-            'user_email' => $user->email,
-            'user_password' => $user->password,
-        ]);
+        $colliveryClient = new ColliverySoap();
 
-        if (!$colliveryClient->authenticate()) {
+        if (!$colliveryClient->verify($user->email, $user->password)) {
             abort(500, 'Internal server error');
         }
 
