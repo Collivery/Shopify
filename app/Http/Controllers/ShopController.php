@@ -37,7 +37,7 @@ class ShopController extends Controller
                 $shop->access_token = $client->getAccessToken($request->input('code'));
                 $shop->save();
                 $this->registerWebhooks($shop);
-                $request->session()->flash('success', 'Shop setup complete');
+                $request->session()->flash('shop_success', 'Shop setup complete');
             } catch (\Exception $e) {
                 $request->session()->flash('shop_error', 'Shop setup failed');
             }
