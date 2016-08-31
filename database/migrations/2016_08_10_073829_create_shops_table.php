@@ -21,6 +21,7 @@ class CreateShopsTable extends Migration
             $table->increments('id')->unsigned();
 
             $table->string('shop');
+            $table->string('name')->nullable();
             $table->string('nonce');
             $table->string('access_token');
 
