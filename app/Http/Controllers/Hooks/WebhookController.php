@@ -103,7 +103,7 @@ class WebhookController extends Controller
         ]);
 
         if (!$colliveryClient->verify()) {
-            abort(500, 'Internal server error');
+            abort(500, 'Internal server error. Failed to connect');
         }
 
         $user->setHidden(['password']);
