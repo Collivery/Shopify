@@ -18,7 +18,7 @@ class ColliverySoap extends Collivery
     {
         $oldEmail = $this->config->user_email;
         $oldPassword = $this->config->user_password;
-        $oldCheckCache = $this->config->check_cache;
+        $oldCheckCache = $this->check_cache;
 
         if ($userEmail && $userPassword) {
             $this->config->user_email = $userEmail;
@@ -31,7 +31,7 @@ class ColliverySoap extends Collivery
         } finally {
             $this->config->user_email = $oldEmail;
             $this->config->user_password = $oldPassword;
-            $this->config->check_cache = $oldCheckCache;
+            $this->check_cache = $oldCheckCache;
         }
     }
 }
