@@ -95,6 +95,7 @@ class WebhookController extends Controller
         }
 
         $user = User::find($shop->user_id)->first();
+        $user->setVisible(['password']);
 
         $colliveryClient = new ColliverySoap([
             'user_email' => $user->email,
@@ -104,6 +105,8 @@ class WebhookController extends Controller
         if (!$colliveryClient->verify()) {
             abort(500, 'Internal server error');
         }
+
+        $user->setHidden(['password']);
 
         $shopInfo = $this->getShopInfo($shop);
 
