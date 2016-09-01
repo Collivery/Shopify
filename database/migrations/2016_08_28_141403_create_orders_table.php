@@ -17,8 +17,11 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('shop_id');
             $table->unsignedBigInteger('shopify_order_id');
             $table->longText('order_status_url');
-            $table->unsignedBigInteger('waybill_number');
-            $table->unsignedInteger('order_number');
+            $table->string('waybill_number')->default(null);
+            $table->string('order_number');
+
+            //0  not processed, 1 collivery added,  2 quote accepted, 3 fulfilled
+            $table->unsignedSmallInteger('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('shop_id')->references('id')->on('shops');
