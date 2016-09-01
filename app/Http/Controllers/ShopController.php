@@ -63,6 +63,20 @@ class ShopController extends Controller
         return Shop::where('shop', $request->input('shop'))->where('nonce', $request->input('state'))->first();
     }
 
+    private function setShopInfo(Shop $shop, ShopifyClient $client)
+    {
+        try {
+            $shopInfo = $client->call('GET', '/admin/shop.json', ['id']);
+            $shop->setInfo($shopInfo);
+            return true;
+        } catch (\Exception $e) {
+            Log::error($e);
+
+            return false;
+        } finally {
+        }
+    }
+
     private function registerWebhooks(Shop $shop)
     {
         $client = $this->getShopifyClient($shop);
