@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Collivery\ShopifyClient;
 use App\Model\Shop;
 use Carbon\Carbon;
 use Illuminate\Contracts\Logging\Log;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Handles installation and registration of webhooks.
@@ -30,11 +32,16 @@ class ShopController extends Controller
     public function setup(Request $request)
     {
         $shop = $this->getShop($request);
-
         if ($shop) {
-            $client = new \ShopifyClient($shop->shop, null, config('shopify.api_key'), config('shopify.secret'));
+            $client = new ShopifyClient($shop->shop, null, config('shopify.api_key'), config('shopify.secret'));
+
             try {
                 $shop->access_token = $client->getAccessToken($request->input('code'));
+                $client->setAccessToken($shop->access_token);
+                if (!$this->setShopInfo($shop, $client)) {
+                    throw new \Exception('Setting shop address failed');
+                }
+
                 $shop->save();
                 $this->registerWebhooks($shop);
                 $request->session()->flash('shop_success', 'Shop setup complete');
