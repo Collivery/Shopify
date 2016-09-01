@@ -195,7 +195,7 @@ class ShopController extends Controller
 
     private function redirectToShopAdmin(Shop $shop)
     {
-        $client = new \ShopifyClient($shop->shop, null, config('shopify.api_key'), config('shopify.secret'));
+        $client = new ShopifyClient($shop->shop, null, config('shopify.api_key'), config('shopify.secret'));
         $installUrl = $client->getAuthorizeUrl(config('shopify.scopes'), config('shopify.redirect_uri'));
         $installUrl .= '&state='.urlencode($shop->nonce);
 
