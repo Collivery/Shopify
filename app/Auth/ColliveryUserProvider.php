@@ -5,8 +5,6 @@ namespace App\Auth;
 use App\User;
 use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Contracts\Hashing\Hasher;
-use Mds\Auth\SoapService;
-use Mds\Client\SoapClient;
 
 class ColliveryUserProvider extends EloquentUserProvider
 {
@@ -20,10 +18,7 @@ class ColliveryUserProvider extends EloquentUserProvider
         $user = parent::retrieveByCredentials($credentials);
         if (!$user) {
             //try and find them by email
-            $soapService = SoapService::getInstance(new SoapClient([]));
-
-            if ($soapService->auth()) {
-                $authData = $soapService->getAuthData();
+            if (app('soap')->check()) {
                 $user = new User([
                     'email' => $credentials['email'],
                     'password' => $credentials['password'],
