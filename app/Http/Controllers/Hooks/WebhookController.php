@@ -101,7 +101,7 @@ class WebhookController extends Controller
             'user_password' => $user->password,
         ]);
 
-        if (!$colliveryClient->verify($user->email, $user->password)) {
+        if (!$colliveryClient->verify()) {
             abort(500, 'Internal server error');
         }
 

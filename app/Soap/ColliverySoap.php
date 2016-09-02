@@ -14,26 +14,24 @@ class ColliverySoap extends Collivery
         parent::__construct($config);
     }
 
-    public function verify($username, $password)
+    public function verify($userEmail = null, $userPassword = null)
     {
-        try {
-            if (!$this->init()) {
-                return false;
-            }
+        $oldEmail = $this->config->user_email;
+        $oldPassword = $this->config->user_password;
+        $oldCheckCache = $this->config->check_cache;
 
-            $this->client->authenticate($username, $password, null,
-                [
-                    'name' => $this->config->app_name.' mds/collivery/class',
-                    'version' => $this->config->app_version,
-                    'host' => $this->config->app_host,
-                    'url' => $this->config->app_url,
-                    'lang' => 'PHP '.phpversion(),
-                ]);
-
-            return true;
-        } catch (\SoapFault $e) {
+        if ($userEmail && $userPassword) {
+            $this->config->user_email = $userEmail;
+            $this->config->user_password = $userPassword;
+            $this->check_cache = 0;
         }
 
-        return false;
+        try {
+            return $this->authenticate();
+        } finally {
+            $this->config->user_email = $oldEmail;
+            $this->config->user_password = $oldPassword;
+            $this->config->check_cache = $oldCheckCache;
+        }
     }
 }
