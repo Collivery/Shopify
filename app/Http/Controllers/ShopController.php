@@ -85,7 +85,7 @@ class ShopController extends Controller
             //script tags
             $client->call('POST', '/admin/script_tags.json', [
                 'script_tag' => [
-                    'src' => "${hookDomain}/js/script_tags.js",
+                    'src' => "${hookDomain}/js/store-front.js",
                     'event' => 'onload',
                     'display_scope' => 'all',
                 ],

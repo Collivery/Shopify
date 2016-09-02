@@ -15,4 +15,5 @@ var gulp = require('gulp');
 elixir(function(mix) {
     mix.sass('app.scss')
       .version('public/css/app.css');
+      .webpack('store-front.js');
 });
