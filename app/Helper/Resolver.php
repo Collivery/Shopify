@@ -29,7 +29,13 @@ class Resolver
 
         $suburbs = $this->colliveryClient->getSuburbs($town);
         if ($suburbs) {
-            return array_search($town, $suburbs);
+            $result = array_search($town, $suburbs);
+
+            if ($result === false) {
+                return false;
+            }
+
+            return $result;
         }
 
         return false;
