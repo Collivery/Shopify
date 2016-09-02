@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Hooks;
 
 use App\Helper\Resolver;
 use App\Http\Controllers\Controller;
-use App\Shop;
-use App\User;
+use App\Model\Shop;
+use App\Model\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Mds\Collivery;
