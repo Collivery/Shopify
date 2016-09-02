@@ -113,8 +113,6 @@ class ShopController extends Controller
      * @param                $service
      * @param \ShopifyClient $client
      * @param Shop           $shop
-     *
-     * @return bool
      */
     private function registerCarrier(&$service, \ShopifyClient $client, Shop $shop)
     {
