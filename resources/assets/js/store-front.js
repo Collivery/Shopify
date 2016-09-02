@@ -127,7 +127,7 @@
       return $(dropdown);
     };
 
-    var provinceFields = $('[name="address[province]"');
+    var provinceFields = $('[name="address[province]"]');
 
     var defaultProvince = $('<option value="-1">Select province</option>');
     provinceFields.prepend(defaultProvince);
