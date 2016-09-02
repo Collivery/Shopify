@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Collivery\ShopifyClient;
 use App\Model\Shop;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
@@ -15,7 +16,7 @@ class Controller extends BaseController
 
     protected function getShopifyClient(Shop $shop)
     {
-        return new \ShopifyClient(
+        return new ShopifyClient(
             $shop->shop,
             $shop->access_token,
             config('shopify.api_key'),

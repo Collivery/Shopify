@@ -3,10 +3,10 @@
 class ShopifyClient
 {
     public $shop_domain;
-    private $token;
-    private $api_key;
-    private $secret;
-    private $last_response_headers = null;
+    protected $token;
+    protected $api_key;
+    protected $secret;
+    protected $last_response_headers = null;
 
     public function __construct($shop_domain, $token, $api_key, $secret)
     {
