@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Hooks;
 
+use App\Helper\Resolver;
 use App\Exceptions\OrderProcessException;
 use App\Handler\Order as OrderHandler;
-use App\Helper\Resolver;
 use App\Http\Controllers\Controller;
 use App\Model\Order;
 use App\Model\Shop;
@@ -139,10 +139,10 @@ class WebhookController extends Controller
                 $srcName = $shop->name;
                 $srcStreetAddress = $shop->address1;
 
-                $destTown = $request->input('line_items.0.destination_location.city');
+                $destTown = $request->input('shipping_address.city');
                 $destSuburb = $request->input('shipping_address.address2');
                 $destName = $request->input('shipping_address.name').' '.$request->input('shipping_address.last_name');
-                $destStreetAddress = $request->input('line_items.0.destination_location.address1');
+                $destStreetAddress = $request->input('shipping_address.address1');
 
                 $srcTownId = $this->resolver->getTownId($srcTown);
                 $srcSuburbId = $this->resolver->getSuburbId($srcSuburb, $srcTownId);
@@ -240,8 +240,7 @@ class WebhookController extends Controller
                 abort(400, $e->getMessage());
             } finally {
                 if ($order->save()) {
-                    Log:
-                    info(sprintf('%s saved %s', $order->number, $order->waybill_number));
+                    Log:info(sprintf('%s saved %s', $order->number, $order->waybill_number));
                 }
             }
         }
