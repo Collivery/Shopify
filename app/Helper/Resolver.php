@@ -2,8 +2,6 @@
 
 namespace App\Helper;
 
-use Mds\ColliveryClient;
-
 class Resolver
 {
     private $colliveryClient;
