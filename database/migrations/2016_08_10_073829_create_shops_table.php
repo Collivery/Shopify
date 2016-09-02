@@ -28,6 +28,19 @@ class CreateShopsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('carrier_id')->unsigned();
 
+            //contact info
+            $table->string('email');
+            $table->string('province');
+            $table->string('province_code');
+            $table->string('country');
+            $table->string('country_code');
+            $table->string('zip');
+            $table->string('city');
+            $table->string('phone');
+            $table->string('customer_email');
+            $table->string('address1');
+            $table->string('address2');
+
             //0 never installed, 1 installed, 2 uninstalled
             $table->smallInteger('app_installed')->default(0);
             $table->smallInteger('carrier_installed')->default(0);

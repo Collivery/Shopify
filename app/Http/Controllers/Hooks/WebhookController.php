@@ -108,17 +108,6 @@ class WebhookController extends Controller
 
         $user->setHidden(['password']);
 
-        $shopInfo = $this->getShopInfo($shop);
-
-        if (!$shopInfo) {
-            abort(400, 'Bad request sent');
-        }
-
-        $shopName = $shopInfo['name'];
-        $shopEmail = $shopInfo['email'];
-        $shopPhone = $shopInfo['phone'];
-        $shopZip = $shopInfo['zip'];
-
         $customerPhone = $request->input('shipping_address.phone');
         $service = $request->input('shipping_lines.0.code');
 
@@ -231,5 +220,12 @@ class WebhookController extends Controller
 
     public function shopUpdate(Request $request)
     {
+        $shop = Shop::byName($request->header('X-Shopify-Shop-Domain'))->installed()->first();
+
+        $shop->setInfo($request->all());
+
+        $shop->save();
+
+        return $request->input();
     }
 }

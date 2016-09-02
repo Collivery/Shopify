@@ -49,4 +49,26 @@ class Shop extends Model
     {
         return $query->where('shop', $shop);
     }
+
+    public function setInfo(array $data)
+    {
+        $fillableFields = $this->fillable;
+
+        $this->fillable([
+            'name',
+            'email',
+            'province',
+            'province_code',
+            'country',
+            'country_code',
+            'zip',
+            'city',
+            'phone',
+            'customer_email',
+            'address1',
+            'address2',
+        ]);
+        $this->fill($data);
+        $this->fillable($fillableFields);
+    }
 }
