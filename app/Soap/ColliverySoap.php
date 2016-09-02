@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Soap;
+
 use Mds\Collivery;
 
 class ColliverySoap extends Collivery
@@ -15,6 +17,10 @@ class ColliverySoap extends Collivery
     public function verify($username, $password)
     {
         try {
+            if (!$this->init()) {
+                return false;
+            }
+
             $this->client->authenticate($username, $password, null,
                 [
                     'name' => $this->config->app_name.' mds/collivery/class',
