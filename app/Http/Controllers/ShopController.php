@@ -67,7 +67,7 @@ class ShopController extends Controller
 
             return true;
         } catch (\Exception $e) {
-            Log::error($e);
+            $this->logger->error($e);
 
             return false;
         } finally {
