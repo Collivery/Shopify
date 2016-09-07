@@ -284,19 +284,4 @@ class WebhookController extends Controller
 
         return $request->input();
     }
-
-    private function getShopInfo(Shop $shop)
-    {
-        $client = $this->getShopifyClient($shop);
-
-        $info = [];
-
-        try {
-            $info = $client->call('GET', '/admin/shop.json');
-        } catch (\Exception $e) {
-            Log::error($e);
-        }
-
-        return $info;
-    }
 }
