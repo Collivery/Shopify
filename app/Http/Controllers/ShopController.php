@@ -153,7 +153,7 @@ class ShopController extends Controller
         if ($this->validateShop($request)) {
             //disable existing installation
             DB::table('shops')->where([
-                'shop' => Input::get('shop'),
+                'shop' => $request->input('shop'),
                 'app_installed' => 1,
             ])->update([
                 'app_installed' => 2,
@@ -161,7 +161,7 @@ class ShopController extends Controller
 
             $shop = new Shop();
 
-            $shop->shop = Input::get('shop');
+            $shop->shop = $request->input(('shop');
             $user = Auth::user();
             $shop->user_id = $user['id'];
             $shop->nonce = sha1(str_random(64));
@@ -173,7 +173,7 @@ class ShopController extends Controller
 
         $request->session()->flash('shop_error', 'Invalid shop url');
 
-        $queryString = !Input::get('shop') ? '' : '?shop='.urlencode(Input::get('shop'));
+        $queryString = $request->has('shop') ? '?shop='.urlencode($request->input('shop')) : '';
 
         return redirect('/'.$queryString);
     }
