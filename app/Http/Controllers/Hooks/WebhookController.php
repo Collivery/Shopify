@@ -63,7 +63,7 @@ class WebhookController extends Controller
         foreach ($items as $key => $item) {
             $parcels[] = [
                 'quantity' => $item['quantity'],
-                'weight' => $item['grams'] / 10000,
+                'weight' => $item['grams'] / 1000,
             ];
         }
 
