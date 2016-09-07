@@ -2,8 +2,6 @@
 
 namespace App\Helper;
 
-use Mds\ColliveryClient;
-
 class Resolver
 {
     private $colliveryClient;
@@ -31,7 +29,13 @@ class Resolver
 
         $suburbs = $this->colliveryClient->getSuburbs($town);
         if ($suburbs) {
-            return array_search($town, $suburbs);
+            $result = array_search($suburbName, $suburbs);
+
+            if ($result === false) {
+                return false;
+            }
+
+            return $result;
         }
 
         return false;

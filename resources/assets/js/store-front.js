@@ -127,12 +127,13 @@
       return $(dropdown);
     };
 
-    var provinceFields = $('[name="address[province]"');
+    var provinceFields = $('[name="address[province]"]');
 
     var defaultProvince = $('<option value="-1">Select province</option>');
     provinceFields.prepend(defaultProvince);
     provinceFields.val('-1');
     provinceFields.show();
+
 
     var getProvinces = function (success, fail) {
       var provinces = [];
@@ -140,6 +141,7 @@
       provinceFields.first().find('option').each(function () {
         provinces.push($(this).val());
       });
+
 
       $.ajax({
         url: HOST + '/script/towns',
@@ -162,6 +164,7 @@
       });
     };
 
+
     var getLocationTypes = function (success, error) {
       $.ajax({
         url: HOST + '/scripts/location-types',
@@ -171,6 +174,7 @@
         error: error,
       });
     };
+
 
     var cityFields = $('[name="address[city]"]');
     // var cityField = $( 'address[city]' );
@@ -224,6 +228,7 @@
     country.val('South Africa');
     country.change();
 
+
     getProvinces(function (towns) {
       var towns = towns;
 
@@ -235,6 +240,7 @@
         var provinceField = $(this);
 
         if (provinceField.val() in towns) {
+
           var townField = findNext(provinceField, '[name="address[city]"]');
           var provinceTowns = towns[provinceField.val()];
 
@@ -262,6 +268,7 @@
     //disable countries except ZA
     $('select[name="address[country]"]  option[value!="South Africa"]').attr('disabled', 'disabled');
 
+
     $('form').each(function () {
       var form = $(this);
       var submitButton = form.find(':submit').first();
@@ -288,6 +295,8 @@
         }
       });
     });
+
+
   };
 
   var callback = function () {
@@ -308,7 +317,8 @@
             callback();
           }
         };
-      } else {
+      }
+      else {
         script.onload = function () {
           script.onload = null;
           callback();
@@ -317,7 +327,9 @@
 
       script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js';
       document.getElementsByTagName('head')[0].appendChild(script);
-    } else {
+
+    }
+    else {
       main(jQuery);
     }
 })();

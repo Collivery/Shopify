@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Helper\Resolver;
+use App\Soap\ColliverySoap;
 use Illuminate\Support\ServiceProvider;
-use Mds\Collivery;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +13,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
     }
 
     /**
@@ -22,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('soap', function ($app) {
-            return new Collivery();
+            return new ColliverySoap();
         });
 
         $this->app->singleton('resolver', function ($app) {

@@ -11,8 +11,13 @@ var elixir = require('laravel-elixir');
  |
  */
 var gulp = require('gulp');
+var webpack = require('laravel-elixir-webpack');
 
-elixir(function(mix) {
-    mix.sass('app.scss')
-      .version('public/css/app.css');
+elixir(function (mix) {
+
+  mix.sass('app.scss')
+    .webpack('store-front.js')
+    .scripts(['title.js', 'app.js'], 'public/js/app.js');
+
+  mix.version(['public/js/app.js', 'public/css/app.css']);
 });

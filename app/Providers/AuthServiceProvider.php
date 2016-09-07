@@ -25,7 +25,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(GateContract $gate)
     {
         $this->registerPolicies($gate);
-        //
     }
 
     public function register()
@@ -36,7 +35,6 @@ class AuthServiceProvider extends ServiceProvider
     protected function registerAuthenticator()
     {
         $this->app->bind('auth', function ($app) {
-
             $app['auth.loaded'] = true;
 
             return new ColliveryAuthManager($app);
