@@ -31,16 +31,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $customer_email
  * @property string $address1
  * @property string $address2
- * @property int $app_installed
- * @property int $carrier_installed
- * @property int $webhooks_installed
- * @property string $carrier_installed_on
- * @property string $carrier_uninstalled_on
- * @property string $webhooks_installed_on
- * @property string $webhooks_uninstalled_on
- * @property string $app_installed_on
- * @property string $app_uninstalled_on
- * @property string $app_updated_on
+ * @property int $installed
+ * @property string $installed_at
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
@@ -89,7 +81,7 @@ class Shop extends Model
      */
     public function isInstalled()
     {
-        return $this->app_installed === 1;
+        return $this->installed === 1;
     }
 
     /**
@@ -99,7 +91,7 @@ class Shop extends Model
      */
     public function hasBeenInstalled()
     {
-        return $this->app_installed === 2;
+        return $this->installed === 2;
     }
 
     /**
@@ -107,7 +99,7 @@ class Shop extends Model
      */
     public function hasNeverBeenInstalled()
     {
-        return $this->app_installed == 0;
+        return $this->installed == 0;
     }
 
     /**

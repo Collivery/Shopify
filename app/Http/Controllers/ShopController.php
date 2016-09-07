@@ -81,7 +81,9 @@ class ShopController extends Controller
         $client = $this->getShopifyClient($shop);
 
         try {
-            $this->registerCarrier($client, $shop);
+            $carrier = $this->registerCarrier($client);
+            $shop->carrier_id = $carrier['id'];
+            
             //register webhooks
             $webhooks = json_decode(file_get_contents(resource_path('json/webhooks.json')), true);
 
@@ -107,11 +109,8 @@ class ShopController extends Controller
                 ],
             ]);
 
-            $shop->webhooks_installed = 1;
-            $shop->webhooks_installed_on = Carbon::now();
-
-            $shop->app_installed = 1;
-            $shop->app_installed_on = Carbon::now();
+            $shop->installed = 1;
+            $shop->installed_at = Carbon::now();
 
             if ($shop->save()) {
                 return true;
@@ -127,9 +126,10 @@ class ShopController extends Controller
 
     /**
      * @param \ShopifyClient $client
-     * @param Shop           $shop
+     *
+     * @return array
      */
-    private function registerCarrier(\ShopifyClient $client, Shop $shop)
+    private function registerCarrier(\ShopifyClient $client)
     {
         $payload = [
             'name' => config('shopify.app_name'),
@@ -139,12 +139,11 @@ class ShopController extends Controller
 
         $payload['callback_url'] = env('SHOPIFY_APP_URL').'/service/shipping/rates';
 
-        $service = $client->call('POST', '/admin/carrier_services.json', [
+        $carrier = $client->call('POST', '/admin/carrier_services.json', [
             'carrier_service' => $payload,
         ]);
-        $shop->carrier_id = $service['id'];
-        $shop->carrier_installed = 1;
-        $shop->carrier_installed_on = Carbon::now();
+        
+        return $carrier;
     }
 
     public function requestPermissions(Request $request)
