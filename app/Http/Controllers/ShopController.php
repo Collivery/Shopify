@@ -84,7 +84,6 @@ class ShopController extends Controller
             $this->registerCarrier($service, $client, $shop);
             //register webhooks
             $webhooks = json_decode(file_get_contents(resource_path('json/webhooks.json')), true);
-            $hookDomain = config('app.url');
 
             $hookDomain = env('SHOPIFY_APP_URL');
 
