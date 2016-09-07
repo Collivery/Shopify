@@ -152,9 +152,9 @@ class ShopController extends Controller
             //disable existing installation
             DB::table('shops')->where([
                 'shop' => $request->input('shop'),
-                'app_installed' => 1,
+                'installed' => 1,
             ])->update([
-                'app_installed' => 2,
+                'installed' => 2,
             ]);
 
             $shop = new Shop();

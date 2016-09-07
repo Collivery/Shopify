@@ -107,7 +107,7 @@ class Shop extends Model
      */
     public function scopeInstalled($query)
     {
-        return $query->where('app_installed', 1);
+        return $query->where('installed', 1);
     }
 
     public function scopeByName($query, $shop)
