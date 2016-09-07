@@ -9,14 +9,16 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property-read \App\Model\Shop $shop
  * @mixin \Eloquent
- * @property integer $id
- * @property integer $shop_id
+ *
+ * @property int $id
+ * @property int $shop_id
  * @property string $ip
  * @property string $headers
  * @property string $payload
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
+ *
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Log whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Log whereShopId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Log whereIp($value)

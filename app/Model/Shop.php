@@ -8,16 +8,18 @@ use Illuminate\Database\Eloquent\Model;
  * App\Model\Shop
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Log[] $logs
+ *
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Shop installed()
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Shop byName($shop)
  * @mixin \Eloquent
- * @property integer $id
+ *
+ * @property int $id
  * @property string $shop
  * @property string $name
  * @property string $nonce
  * @property string $access_token
- * @property integer $user_id
- * @property integer $carrier_id
+ * @property int $user_id
+ * @property int $carrier_id
  * @property string $email
  * @property string $province
  * @property string $province_code
@@ -29,9 +31,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $customer_email
  * @property string $address1
  * @property string $address2
- * @property integer $app_installed
- * @property integer $carrier_installed
- * @property integer $webhooks_installed
+ * @property int $app_installed
+ * @property int $carrier_installed
+ * @property int $webhooks_installed
  * @property string $carrier_installed_on
  * @property string $carrier_uninstalled_on
  * @property string $webhooks_installed_on
@@ -42,6 +44,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
+ *
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Shop whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Shop whereShop($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Shop whereName($value)

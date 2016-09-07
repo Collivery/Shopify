@@ -9,16 +9,18 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Shop[] $shops
  * @mixin \Eloquent
- * @property integer $id
- * @property integer $user_id
+ *
+ * @property int $id
+ * @property int $user_id
  * @property string $name
  * @property string $email
  * @property string $password
- * @property boolean $active
+ * @property bool $active
  * @property string $remember_token
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
+ *
  * @method static \Illuminate\Database\Query\Builder|\App\Model\User whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Model\User whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Model\User whereName($value)

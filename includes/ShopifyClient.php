@@ -10,7 +10,7 @@ class ShopifyClient
 
     public function __construct($shop_domain, $token, $api_key, $secret)
     {
-        $this->name = "ShopifyClient";
+        $this->name = 'ShopifyClient';
         $this->shop_domain = $shop_domain;
         $this->token = $token;
         $this->api_key = $api_key;
@@ -20,9 +20,9 @@ class ShopifyClient
     // Get the URL required to request authorization
     public function getAuthorizeUrl($scope, $redirect_url = '')
     {
-        $url = "https://{$this->shop_domain}/admin/oauth/authorize?client_id={$this->api_key}&scope=" . urlencode($scope);
+        $url = "https://{$this->shop_domain}/admin/oauth/authorize?client_id={$this->api_key}&scope=".urlencode($scope);
         if ($redirect_url != '') {
-            $url .= "&redirect_uri=" . urlencode($redirect_url);
+            $url .= '&redirect_uri='.urlencode($redirect_url);
         }
 
         return $url;
@@ -68,7 +68,7 @@ class ShopifyClient
             return $url;
         }
         if (is_array($query)) {
-            return "$url?" . http_build_query($query);
+            return "$url?".http_build_query($query);
         } else {
             return "$url?$query";
         }
@@ -131,7 +131,7 @@ class ShopifyClient
         }
         $params = explode('/', $this->last_response_headers['http_x_shopify_shop_api_call_limit']);
 
-        return (int)$params[$index];
+        return (int) $params[$index];
     }
 
     public function callsMade()
@@ -143,16 +143,16 @@ class ShopifyClient
     {
         $baseurl = "https://{$this->shop_domain}/";
 
-        $url = $baseurl . ltrim($path, '/');
+        $url = $baseurl.ltrim($path, '/');
         $query = in_array($method, ['GET', 'DELETE']) ? $params : [];
         $payload = in_array($method, ['POST', 'PUT']) ? json_encode($params) : [];
         $request_headers = in_array($method, ['POST', 'PUT']) ? [
-            "Content-Type: application/json; charset=utf-8",
+            'Content-Type: application/json; charset=utf-8',
             'Expect:',
         ] : [];
 
         // add auth headers
-        $request_headers[] = 'X-Shopify-Access-Token: ' . $this->token;
+        $request_headers[] = 'X-Shopify-Access-Token: '.$this->token;
 
         $response = $this->curlHttpApiRequest($method, $url, $query, $payload, $request_headers);
         $response = json_decode($response, true);
@@ -183,11 +183,11 @@ class ShopifyClient
             $value = str_replace('&', '%26', $value);
             $value = str_replace('%', '%25', $value);
 
-            $dataString[] = $key . '=' . $value;
+            $dataString[] = $key.'='.$value;
         }
         sort($dataString);
 
-        $string = implode("&", $dataString);
+        $string = implode('&', $dataString);
 
         $signatureBin = mhash(MHASH_SHA256, $string, $this->secret);
         $signature = bin2hex($signatureBin);

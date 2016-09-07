@@ -139,7 +139,7 @@ class ShopController extends Controller
             'service_discovery' => true,
         ];
 
-        $payload['callback_url'] = env('SHOPIFY_APP_URL') . '/service/shipping/rates';
+        $payload['callback_url'] = env('SHOPIFY_APP_URL').'/service/shipping/rates';
 
         $service = $client->call('POST', '/admin/carrier_services.json', [
             'carrier_service' => $payload,

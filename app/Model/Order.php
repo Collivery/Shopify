@@ -9,16 +9,18 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Order byId($id)
  * @mixin \Eloquent
- * @property integer $id
- * @property integer $shop_id
- * @property integer $shopify_order_id
+ *
+ * @property int $id
+ * @property int $shop_id
+ * @property int $shopify_order_id
  * @property string $order_status_url
  * @property string $waybill_number
  * @property string $order_number
- * @property integer $status
+ * @property int $status
  * @property string $deleted_at
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ *
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Order whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Order whereShopId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Order whereShopifyOrderId($value)
