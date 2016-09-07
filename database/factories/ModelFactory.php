@@ -20,10 +20,3 @@ $factory->define(App\Model\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Lesson::class, function (Faker\Generator $faker) {
-    return [
-        'title' => $faker->sentence,
-        'description' => $faker->sentences(15, true),
-        'duration' => $faker->numberBetween(200, 4000),
-    ];
-});

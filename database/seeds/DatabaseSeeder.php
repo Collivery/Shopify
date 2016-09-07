@@ -20,9 +20,7 @@
             }
 
             Model::unguard();
-
             $this->call(UsersTableSeeder::class);
-            $this->call(LessonsTableSeeder::class);
             Model::reguard();
         }
     }
