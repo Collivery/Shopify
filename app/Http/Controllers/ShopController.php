@@ -80,9 +80,8 @@ class ShopController extends Controller
     {
         $client = $this->getShopifyClient($shop);
 
-        $service = null;
         try {
-            $this->registerCarrier($service, $client, $shop);
+            $this->registerCarrier($client, $shop);
             //register webhooks
             $webhooks = json_decode(file_get_contents(resource_path('json/webhooks.json')), true);
 
@@ -127,11 +126,10 @@ class ShopController extends Controller
     }
 
     /**
-     * @param                $service
      * @param \ShopifyClient $client
      * @param Shop           $shop
      */
-    private function registerCarrier(&$service, \ShopifyClient $client, Shop $shop)
+    private function registerCarrier(\ShopifyClient $client, Shop $shop)
     {
         $payload = [
             'name' => config('shopify.app_name'),
