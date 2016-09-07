@@ -26,6 +26,11 @@ class WebhookController extends Controller
         $this->resolver = $resolver;
     }
 
+    public function __construct()
+    {
+        $this->middleware('validWebhook');
+    }
+
     public function rates(Request $request)
     {
         $origTownId = $this->resolver->getTownId($request->input('rate.origin.city'));
@@ -36,8 +41,23 @@ class WebhookController extends Controller
 
         $destTownId = $this->resolver->getTownId($request->input('rate.destination.city'));
 
+        //shopify is posting an address with no city which tends to be very inaccurate
+        //default to one city in a province
         if (!$destTownId) {
-            abort(400, 'Invalid request');
+            $provinceCode = $request->input('rate.destination.province');
+            $provinceMap = config('provinces');
+            $province = null;
+            foreach ($provinceMap as $k => $v) {
+                if ($v['code'] == $provinceCode || $v['alias'] == $provinceCode) {
+                    $province = $k;
+                }
+            }
+
+            if (!$province) {
+                abort(400, 'Bad request');
+            }
+
+            $destTownId = config("provinces.{$province}.major_town");
         }
 
         $parcels = [];
@@ -68,8 +88,11 @@ class WebhookController extends Controller
 
             $price = app('soap')->getPrice($quoteParams);
 
-            $deliveryTime = Carbon::createFromTimestamp($price['collection_time'],
-                'Africa/Johannesburg')->format('Y-m-d G:i:s O');
+            $deliveryTime = Carbon::createFromTimestamp(
+                $price['collection_time'],
+                'Africa/Johannesburg'
+            )->format('Y-m-d G:i:s O');
+
             $rates[] = [
                 'service_name' => $service,
                 'service_code' => $key,
@@ -236,7 +259,8 @@ class WebhookController extends Controller
                     throw new OrderProcessException('Failed to process order');
                 }
             } catch (OrderProcessException $e) {
-                Log::error(sprintf('Code %d : Line %d:File : %s Message %s', $e->getCode(), $e->getLine(), $e->getFile(), $e->getMessage()));
+                Log::error(sprintf('Code %d : Line %d:File : %s Message %s', $e->getCode(), $e->getLine(),
+                    $e->getFile(), $e->getMessage()));
                 abort(400, $e->getMessage());
             } finally {
                 if ($order->save()) {
@@ -246,21 +270,6 @@ class WebhookController extends Controller
         }
 
         return $request->input();
-    }
-
-    private function getShopInfo(Shop $shop)
-    {
-        $client = $this->getShopifyClient($shop);
-
-        $info = [];
-
-        try {
-            $info = $client->call('GET', '/admin/shop.json');
-        } catch (\Exception $e) {
-            Log::error($e);
-        }
-
-        return $info;
     }
 
     public function ordersCreate(Request $request)
@@ -280,5 +289,20 @@ class WebhookController extends Controller
         $shop->save();
 
         return $request->input();
+    }
+
+    private function getShopInfo(Shop $shop)
+    {
+        $client = $this->getShopifyClient($shop);
+
+        $info = [];
+
+        try {
+            $info = $client->call('GET', '/admin/shop.json');
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
+
+        return $info;
     }
 }

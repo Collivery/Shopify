@@ -7,10 +7,6 @@ use App\Model\Shop;
 use Carbon\Carbon;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Handles installation and registration of webhooks.
@@ -68,6 +64,7 @@ class ShopController extends Controller
         try {
             $shopInfo = $client->call('GET', '/admin/shop.json', ['id']);
             $shop->setInfo($shopInfo);
+
             return true;
         } catch (\Exception $e) {
             Log::error($e);
@@ -88,9 +85,7 @@ class ShopController extends Controller
             $webhooks = json_decode(file_get_contents(resource_path('json/webhooks.json')), true);
             $hookDomain = config('app.url');
 
-            if (config('app.debug')) {
-                $hookDomain = env('NGROK_URL');
-            }
+            $hookDomain = env('SHOPIFY_APP_URL');
 
             foreach ($webhooks as $key => &$hook) {
                 $hook = [
@@ -143,9 +138,7 @@ class ShopController extends Controller
             'service_discovery' => true,
         ];
 
-        if (config('app.debug')) {
-            $payload['callback_url'] = env('NGROK_URL').'/service/shipping/rates';
-        }
+        $payload['callback_url'] = env('SHOPIFY_APP_URL') . '/service/shipping/rates';
 
         $service = $client->call('POST', '/admin/carrier_services.json', [
             'carrier_service' => $payload,
