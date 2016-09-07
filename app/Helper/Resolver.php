@@ -2,13 +2,15 @@
 
 namespace App\Helper;
 
+use App\Soap\ColliverySoap;
+
 class Resolver
 {
     private $colliveryClient;
 
-    public function __construct()
+    public function __construct(ColliverySoap $colliveryClient)
     {
-        $this->colliveryClient = app('soap');
+        $this->colliveryClient = $colliveryClient;
     }
 
     public function getTownId($townName)

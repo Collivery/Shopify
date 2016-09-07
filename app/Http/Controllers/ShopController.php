@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Collivery\ShopifyClient;
 use App\Model\Shop;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Log;
+use DB;
 
 /**
  * Handles installation and registration of webhooks.
@@ -68,9 +66,10 @@ class ShopController extends Controller
         try {
             $shopInfo = $client->call('GET', '/admin/shop.json', ['id']);
             $shop->setInfo($shopInfo);
+
             return true;
         } catch (\Exception $e) {
-            Log::error($e);
+            $this->logger->error($e);
 
             return false;
         } finally {
@@ -81,16 +80,14 @@ class ShopController extends Controller
     {
         $client = $this->getShopifyClient($shop);
 
-        $service = null;
         try {
-            $this->registerCarrier($service, $client, $shop);
+            $carrier = $this->registerCarrier($client);
+            $shop->carrier_id = $carrier['id'];
+            
             //register webhooks
             $webhooks = json_decode(file_get_contents(resource_path('json/webhooks.json')), true);
-            $hookDomain = config('app.url');
 
-            if (config('app.debug')) {
-                $hookDomain = env('NGROK_URL');
-            }
+            $hookDomain = env('SHOPIFY_APP_URL');
 
             foreach ($webhooks as $key => &$hook) {
                 $hook = [
@@ -112,11 +109,8 @@ class ShopController extends Controller
                 ],
             ]);
 
-            $shop->webhooks_installed = 1;
-            $shop->webhooks_installed_on = Carbon::now();
-
-            $shop->app_installed = 1;
-            $shop->app_installed_on = Carbon::now();
+            $shop->installed = 1;
+            $shop->installed_at = Carbon::now();
 
             if ($shop->save()) {
                 return true;
@@ -131,11 +125,11 @@ class ShopController extends Controller
     }
 
     /**
-     * @param                $service
      * @param \ShopifyClient $client
-     * @param Shop           $shop
+     *
+     * @return array
      */
-    private function registerCarrier(&$service, \ShopifyClient $client, Shop $shop)
+    private function registerCarrier(\ShopifyClient $client)
     {
         $payload = [
             'name' => config('shopify.app_name'),
@@ -143,16 +137,13 @@ class ShopController extends Controller
             'service_discovery' => true,
         ];
 
-        if (config('app.debug')) {
-            $payload['callback_url'] = env('NGROK_URL').'/service/shipping/rates';
-        }
+        $payload['callback_url'] = env('SHOPIFY_APP_URL').'/service/shipping/rates';
 
-        $service = $client->call('POST', '/admin/carrier_services.json', [
+        $carrier = $client->call('POST', '/admin/carrier_services.json', [
             'carrier_service' => $payload,
         ]);
-        $shop->carrier_id = $service['id'];
-        $shop->carrier_installed = 1;
-        $shop->carrier_installed_on = Carbon::now();
+        
+        return $carrier;
     }
 
     public function requestPermissions(Request $request)
@@ -160,15 +151,15 @@ class ShopController extends Controller
         if ($this->validateShop($request)) {
             //disable existing installation
             DB::table('shops')->where([
-                'shop' => Input::get('shop'),
-                'app_installed' => 1,
+                'shop' => $request->input('shop'),
+                'installed' => 1,
             ])->update([
-                'app_installed' => 2,
+                'installed' => 2,
             ]);
 
             $shop = new Shop();
 
-            $shop->shop = Input::get('shop');
+            $shop->shop = $request->input('shop');
             $user = Auth::user();
             $shop->user_id = $user['id'];
             $shop->nonce = sha1(str_random(64));
@@ -180,7 +171,7 @@ class ShopController extends Controller
 
         $request->session()->flash('shop_error', 'Invalid shop url');
 
-        $queryString = !Input::get('shop') ? '' : '?shop='.urlencode(Input::get('shop'));
+        $queryString = $request->has('shop') ? '?shop='.urlencode($request->input('shop')) : '';
 
         return redirect('/'.$queryString);
     }

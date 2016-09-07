@@ -52,7 +52,7 @@ class ScriptController extends Controller
 
         foreach ($provinces as $province) {
             if (isset($provincesMap[$province])) {
-                $provinceTowns = $this->collivery->getTowns('ZAF', $provincesMap[$province]);
+                $provinceTowns = $this->collivery->getTowns('ZAF', $provincesMap[$province]['code']);
                 if (!empty($provinceTowns)) {
                     $provinceTowns = array_values($provinceTowns);
                     $result[$province] = array_combine($provinceTowns, $provinceTowns);

@@ -7,8 +7,6 @@ class CreateShopsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -42,30 +40,18 @@ class CreateShopsTable extends Migration
             $table->string('address2');
 
             //0 never installed, 1 installed, 2 uninstalled
-            $table->smallInteger('app_installed')->default(0);
-            $table->smallInteger('carrier_installed')->default(0);
-            $table->smallInteger('webhooks_installed')->default(false);
-
-            $table->dateTime('carrier_installed_on')->nullable();
-            $table->dateTime('carrier_uninstalled_on')->nullable();
-            $table->dateTime('webhooks_installed_on')->nullable();
-            $table->dateTime('webhooks_uninstalled_on')->nullable();
-            $table->dateTime('app_installed_on');
-            $table->dateTime('app_uninstalled_on')->nullable();
-            $table->dateTime('app_updated_on');
+            $table->smallInteger('installed')->default(0);
+            $table->dateTime('installed_at');
 
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
-
-            $table->softDeletes();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

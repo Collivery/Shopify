@@ -7,8 +7,6 @@
     {
         /**
          * Run the migrations.
-         *
-         * @return void
          */
         public function up()
         {
@@ -32,12 +30,10 @@
 
         /**
          * Reverse the migrations.
-         *
-         * @return void
          */
         public function down()
         {
-            Schema::drop('logs', function (Blueprint $table){
+            Schema::drop('logs', function (Blueprint $table) {
                 $table->dropForeign('shop_id');
             });
         }

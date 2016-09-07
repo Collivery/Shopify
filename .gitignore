@@ -7,3 +7,5 @@ Homestead.json
 /public/css
 /public/build
 /.idea
+/public/cache
+*.orig
