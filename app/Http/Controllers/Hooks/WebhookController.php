@@ -24,10 +24,6 @@ class WebhookController extends Controller
     public function __construct(Resolver $resolver)
     {
         $this->resolver = $resolver;
-    }
-
-    public function __construct()
-    {
         $this->middleware('validWebhook');
     }
 
