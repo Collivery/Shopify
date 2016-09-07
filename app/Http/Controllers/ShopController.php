@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Collivery\ShopifyClient;
 use App\Model\Shop;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
