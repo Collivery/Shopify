@@ -149,8 +149,6 @@ class WebhookController extends Controller
 
                 $user->setHidden(['password']);
 
-                $shopName = $shop->name;
-                $shopEmail = $shop->email;
                 $shopPhone = $shop->phone;
                 $shopZip = $shop->zip;
 
