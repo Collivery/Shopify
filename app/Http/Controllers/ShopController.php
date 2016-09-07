@@ -7,6 +7,7 @@ use App\Model\Shop;
 use Carbon\Carbon;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
+use DB;
 
 /**
  * Handles installation and registration of webhooks.
