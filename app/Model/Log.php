@@ -8,6 +8,6 @@ class Log extends Model
 {
     public function shop()
     {
-        return $this->belongsTo('App\Model\Shop');
+        return $this->belongsTo(Shop::class);
     }
 }
