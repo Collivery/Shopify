@@ -16,8 +16,7 @@ var webpack = require('laravel-elixir-webpack');
 elixir(function (mix) {
 
   mix.sass('app.scss')
-    .webpack('store-front.js')
-    .scripts(['title.js', 'app.js'], 'public/js/app.js');
+    .webpack('store-front.js');
 
-  mix.version(['public/js/app.js', 'public/css/app.css']);
+  mix.version(['public/css/app.css']);
 });
