@@ -161,7 +161,7 @@ class ShopController extends Controller
 
             $shop = new Shop();
 
-            $shop->shop = $request->input(('shop');
+            $shop->shop = $request->input('shop');
             $user = Auth::user();
             $shop->user_id = $user['id'];
             $shop->nonce = sha1(str_random(64));
